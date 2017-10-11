@@ -29,7 +29,6 @@ public class SplashScreen {
                 if (!activity.isFinishing()) {
 
                     mSplashDialog = new Dialog(activity, fullScreen ? R.style.SplashScreen_Fullscreen : R.style.SplashScreen_SplashTheme);
-                    mSplashDialog.setContentView(R.layout.launch_screen);
                     mSplashDialog.setCancelable(false);
 
                     if (!mSplashDialog.isShowing()) {
