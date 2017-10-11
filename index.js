@@ -10,5 +10,5 @@
 'use strict';
 
 import { NativeModules } from 'react-native';
-module.exports = NativeModules.SplashScreen;
+deport default NativeModules.SplashScreen;
 
