@@ -2,6 +2,8 @@ package org.devio.rn.splashscreen;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.view.View;
 
 import java.lang.ref.WeakReference;
 
@@ -49,21 +51,27 @@ public class SplashScreen {
     /**
      * 关闭启动屏
      */
-    public static void hide(Activity activity) {
-        if (activity == null) {
+    public static void hide(final Activity a) {
+        Activity referencedActivity = a;
+        if (referencedActivity == null) {
             if (mActivity == null) {
                 return;
             }
-            activity = mActivity.get();
+            referencedActivity = mActivity.get();
         }
-        if (activity == null) return;
+        if (referencedActivity == null) return;
 
-        activity.runOnUiThread(new Runnable() {
+        referencedActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mSplashDialog != null && mSplashDialog.isShowing()) {
                     mSplashDialog.dismiss();
                     mSplashDialog = null;
+
+                    if (a != null) {
+                        View root = a.findViewById(android.R.id.content).getRootView();
+                        root.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    }
                 }
             }
         });
