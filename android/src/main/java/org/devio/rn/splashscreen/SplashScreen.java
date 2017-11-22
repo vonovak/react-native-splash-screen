@@ -3,6 +3,7 @@ package org.devio.rn.splashscreen;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.os.SystemClock;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
@@ -67,13 +68,26 @@ public class SplashScreen {
                 if (mSplashDialog != null && mSplashDialog.isShowing()) {
                     mSplashDialog.dismiss();
                     mSplashDialog = null;
-
-                    if (a != null) {
-                        View root = a.findViewById(android.R.id.content).getRootView();
-                        root.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    }
                 }
             }
         });
+
+        // an ugly hack to make the background white so that the color behind keyboard is white
+        // after a delay so that there is no white flicker in status bar when the splash screen goes away
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SystemClock.sleep(350);
+                if (a != null) {
+                    a.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View root = a.findViewById(android.R.id.content).getRootView();
+                            root.setBackgroundColor(Color.WHITE);
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }
